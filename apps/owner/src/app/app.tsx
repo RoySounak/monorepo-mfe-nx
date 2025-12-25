@@ -26,7 +26,7 @@ export default function OwnerApp({ role, token, logout }: OwnerAppProps) {
 
   return (
     <div>
-      <h2>Owner Remote Prod Testing Individual</h2>
+      <h2>Owner Remote Demo</h2>
       <p>Role: {displayRole}</p>
       <p>Token: {displayToken}</p>
       {logout && <button onClick={logout}>Logout</button>}
