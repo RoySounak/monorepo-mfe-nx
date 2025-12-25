@@ -1,0 +1,85 @@
+{
+  "name": "owner",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/owner/src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "compiler": "babel",
+        "outputPath": "dist/apps/owner",
+        "index": "apps/owner/src/index.html",
+        "baseHref": "/",
+        "main": "apps/owner/src/main.ts",
+        "tsConfig": "apps/owner/tsconfig.app.json",
+        "assets": ["apps/owner/src/favicon.ico", "apps/owner/src/assets"],
+        "styles": ["apps/owner/src/styles.scss"],
+        "scripts": [],
+        "webpackConfig": "apps/owner/webpack.config.ts"
+      },
+      "configurations": {
+        "development": {
+          "extractLicenses": false,
+          "optimization": false,
+          "sourceMap": true,
+          "vendorChunk": true
+        },
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/owner/src/environments/environment.ts",
+              "with": "apps/owner/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false,
+          "webpackConfig": "apps/owner/webpack.config.prod.ts"
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/react:module-federation-dev-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "owner:build",
+        "hmr": true,
+        "port": 4201
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "owner:build:development"
+        },
+        "production": {
+          "buildTarget": "owner:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "serve-static": {
+      "executor": "@nx/react:module-federation-static-server",
+      "defaultConfiguration": "production",
+      "options": {
+        "serveTarget": "owner:serve"
+      },
+      "configurations": {
+        "development": {
+          "serveTarget": "owner:serve:development"
+        },
+        "production": {
+          "serveTarget": "owner:serve:production"
+        }
+      }
+    }
+  }
+}
